@@ -1,0 +1,36 @@
+
+body{
+padding: 20px;
+}
+#header{
+  padding: 10px;
+}
+.top-rank{
+  border: solid #009999 5px;
+}
+h1 {
+  background-color: red;
+}
+.carousel-item{
+  padding: 10px;
+  width: 400px;
+  height: 337px;
+}
+.col-sm-4{
+  border: solid #009999 2px;
+}
+.col-sm-6.col-md-10{
+  border: solid #009999 5px;
+  height:1000px;
+  overflow-x:auto;
+  overflow-y:auto;
+}
+.col-6.col-md-2{
+  border: solid #009999 5px;
+  width:200px;
+  height:1000px;
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+

@@ -1,0 +1,18 @@
+
+<div class="mt-4">
+    <div class="col-sm-6 col-lg-4">
+        <h1 style="text-align: center;">Create Category</h1>
+        <form method="POST" action="/admin/category/store" style="width: 30rem; margin: auto;">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="test" class="form-control" id="name_category" name="name_category">
+            </div>
+            <div class="form-group">
+                <label for="name">Description</label>
+                <input type="text" class="form-control" id="description_category" name="description_category"><br>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+</div>
+<%- contentFor('script') %>

@@ -1,0 +1,108 @@
+<% 
+function getDay(date){
+  return date.getDay() + '/' + date.getMonth() + 1 + '/' + date.getFullYear()
+}
+%>
+
+<div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-3" style="padding: 10px;">
+        <img src="/image/<%= data.story.avatar %>" class="img-fluid rounded-start" alt="No image" width="300" height="450">
+      </div>
+      <div class="col-md-9" style="padding: 10px;">
+        <div class="card-body">
+          <h2 class="card-title"><%= data.story.name_story%> </h2>
+          <h5>Alias: <%= data.story.alias_story%> </h5>
+          <h5><i class="fa fa-rss">
+          </i> Status: <%= data.story.status %> </h5>
+          <h5><i class="fa fa-eye"></i> View: <%= data.story.views %> </h5>
+          <h5>Follow: <%= data.story.follows %> </h5>
+          <button class="btn btn-success btn-save" data-id ="<%=data.story._id%>">Save</button>
+          <button class="btn btn-success follow-link" data-id="<%=data.story._id%>" onclick="toggleFollow(this)">Follow</button>
+          <button class="btn btn-success follow-link hide" data-id="<%=data.story._id%>" onclick="toggleFollow(this)">Unfollow</button>
+          <!-- <a href="#" title="comment"><i class="fa fa-comment"></i></a> -->
+          <p class="card-text"><h6>Description: </h6><%=data.story.description%></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<h2 style="text-align: center;">List Chapter</h2>
+  <div data-bs-spy="scroll" style="padding: 20px;"> 
+    <ul class="list-group">
+      <% data.chap.map((chapter) => { %>
+          <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action list-group-item-success">
+            Chapter <%=chapter.number_chap%>
+            <button type="button" class="btn btn-light btn-read-chap" data-id ="<%=chapter._id%>">Read</button>
+            <span class="badge text-bg-primary rounded-pill"><%=getDay(chapter.createdAt)%> </span>
+          </li>
+      <% })%>
+    </ul>
+</div>
+
+
+<div class="container mt-5">
+
+  <div class="row  d-flex justify-content-center">
+
+      <div class="col-md-8">
+
+          <div class="headings d-flex justify-content-between align-items-center mb-3">
+              <h5>List Comments</h5>
+          </div>
+          <div class="form-group">
+            <label for="name">Comment for you!</label> 
+            <input type="text" class="form-control" id="name_story" name="name_story">
+            <button class="btn btn-success btn-send"><i class="bi bi-send"></i>Send</button>
+
+        </div>
+          <div class="card p-3 mt-2">
+
+              <div class="d-flex justify-content-between align-items-center">
+
+            <div class="user d-flex flex-row align-items-center">
+
+              <img src="/image/user.png" width="30" class="user-img rounded-circle mr-2">
+              <span><small class="font-weight-bold text-primary"> Duy Chuong</small><br>
+                <small class="font-weight-bold">Loving your work and profile! </small></span>
+            </div>
+            <small>11/04/2024</small>
+            </div>
+              <div class="icons align-items-center">
+                  <i class="fa fa-check-circle-o check-icon text-primary"></i>
+              </div>
+            </div>
+          </div>          
+      </div>
+  </div>
+</div>
+
+
+<%- contentFor('script') %>
+<script>
+  $('.btn-read-chap').click(function(){
+  const id = $(this).data('id')
+  location.href = `/client/${id}/read`
+})
+$('.btn-save').click(function(){
+  const id = $(this).data('id')
+  location.href = `/client/${id}/save`
+})
+$('.follow-link').click(function(){
+  const id = $(this).data('id')
+  location.href = `/client/${id}/follow`
+})
+
+function toggleFollow(button) {
+    // Đảm bảo rằng bạn đã đặt class "hide" cho nút đã click
+    $(button).toggleClass("hide");
+
+    // Lấy ra nút kia (Follow hoặc Unfollow) và ẩn/hiện nó
+    $(button).siblings(".follow-link").toggleClass("hide");
+}
+</script>
+<style>
+.hide {
+    display: none;
+}
+</style>

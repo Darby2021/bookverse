@@ -1,0 +1,123 @@
+
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-3" style="padding: 10px;">
+      <img src="/image/<%= data.story.avatar %>" class="img-fluid rounded-start" alt="No image" width="300" height="450">
+    </div>
+    <div class="col-md-9" style="padding: 10px;">
+      <div class="card-body">
+        <h2 class="card-title"><%= data.story.name_story%> </h2>
+        <h5>Alias: <%= data.story.alias_story%> </h5>
+        <h5><i class="fa fa-rss">
+        </i> Status: <%= data.story.status %> </h5>
+        <h5><i class="fa fa-eye"></i> View: <%= data.story.views %> </h5>
+               <!-- <a href="#" title="comment"><i class="fa fa-comment"></i></a> -->
+        <p class="card-text"><h6>Description: </h6><%=data.story.description%></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<br><h1 style="text-align: center; color: #273670;">List Chapter</h1>
+<div>
+  <button class="btn btn-primary btn-add-chapter" data-id = "<%=id%>"> <i class="bi bi-plus-circle-fill"></i> New</button>
+</div>
+<div class="table-responsive mt-3">
+  <table class="table table-hover" style="text-align: center;">
+      <thead>
+      <tr>
+      
+          <th scope="col">Number Chap</th>
+          <th scope="col">Context</th>
+          <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% chap.map((chap) => { %>
+          <tr>
+              <td><%= chap.number_chap %></td>
+              <td><%= chap.context%></td>
+              <td style="vertical-align: middle;">
+                  <div class="btn-group-vertical" role="group">
+                      <button type="button" class="btn btn-warning btn-edit-chapter" data-id="<%= chap._id%>">
+                        <i class="bi bi-gear-fill"></i> Edit
+                      </button>
+                      <button type="button" class="btn btn-danger btn-delete-chapter" data-bs-id="<%=chap._id %>" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="bi bi-trash3-fill"></i> Delete 
+                  </div>
+              </td>
+          </tr>
+      <% }) %>
+      </tbody>
+  </table>
+</div>
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Warning</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Do you want to remove? 
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                <button id="btn_delete_chapter_modal" type="submit" class="btn btn-danger">Delete</button>
+              </div>
+            </div>
+    </div>
+  </div>
+  <%- contentFor('script') %>
+  <script>
+  $('.btn-add-chapter').click(function(){
+  const id = $(this).data('id')
+  location.href = `/admin/chap/${id}/create`
+ })
+
+ $('.btn-edit-chapter').click(function(){
+  const id = $(this).data('id')
+  location.href = `/admin/chap/${id}/edit`
+ })
+
+  let chap_id = 0;
+  $('.btn-delete-chapter').click(function(){
+    chap_id = $(this).data('bs-id')
+    $('#chap_id').val(chap_id)
+  })
+  
+  $('#btn_delete_chapter_modal').click(function(){
+    $('#btn_close_confirm_modal').click()
+          $.ajax({
+              url: '/admin/chap/delete',
+              type: 'delete',
+              data: {chap_id: chap_id },
+              dataType: 'json',
+              success: (response) => {
+                  setTimeout(() => {
+                      if (response.code === 203) {
+                          location.href = '/admin/product'
+                      } else {
+                          Alert.Show('warning', response.message)
+                      }
+                  },)
+              },
+              error: (error) => {
+                  setTimeout(()=> {
+                      Alert.Show('danger', 'Something went wrong!')
+                      console.log(error)
+                  },)
+              }
+          })
+  })
+  </script>

@@ -1,0 +1,67 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+<div class="container-xxl bd-gutter flex-wrap flex-lg-nowrap">
+    <div class="d-flex flex-grow-1">
+        <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
+        <a class="navbar-brand" href="/client"><i class="fa fa-home"></i>
+            BookVerse
+        </a>
+        <div class="w-100 text-right">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar7">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+    <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+            <form class="d-flex" id="search-form" role="search">
+                <input class="form-control me-2" id="search-input" type="search" placeholder="Enter keyword...">
+                <button class="btn-secondary btn btn-success" type="submit">Search</button>
+            </form>
+        </ul>
+        <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+            <li class="nav-item col-6 col-lg-auto">
+                <a href="/client/about" class="nav-link"> <i class="fa fa-info"></i></a>
+            </li>
+
+            <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+                <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+                <hr class="d-lg-none my-2 text-white-50">
+            </li>
+
+            <li class="nav-item col-6 col-lg-auto" >
+                    <a href="/profile" class="nav-link"> <i class="fa fa-user"> profile</i></a>
+            </li>
+        </ul>
+            
+    </div>
+</div>
+</nav>
+<%- include('../../../partials/script-part') %>
+<%- script %>
+
+
+<script> 
+$('#search-form').submit(async function (e) {
+    e.preventDefault(); // Ngăn chặn hành động mặc định của form
+    const keyword = $('#search-input').val().trim();
+    console.log(keyword) // Lấy từ khóa tìm kiếm
+   location.href = `/client?keyword=${keyword}`
+});
+</script>
+    <style>
+    @media (min-width: 768px) {
+    .navbar-brand.abs
+        {
+            position: absolute;
+            width: auto;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+    }
+    .avata-profile{
+    font-size: 30px;
+    color: aliceblue;
+    }
+    </style>

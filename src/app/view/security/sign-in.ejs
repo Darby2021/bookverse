@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link href="/css/css/portal/bootstrap.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="/css/css/alert-notification.css"> -->
+    <link rel="stylesheet" href="/css/css/loading.css">
+</head>
+<body style="background: rgb(255, 255, 255)">
+<%- include('../partials/loading') %>
+<div class="row g-0 text-align">
+    <div class="col-sm-6 col-md-7">
+        <img src="/image/login.jpg" alt="404" style="width: 800px; height: 700px; padding: 20px;">
+    </div>
+    <div class="col-6 col-md-5">
+            <div class="col-sm-12 col-md-8 mt-5">
+                <h2 class="form-title ">Sign In</h2>
+                <form id="login_form" class="mt-4">
+                    <div class="mb-2">
+                        <label for="email" class="form-label" style="text-align: left;">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" autocomplete required>
+                    </div>
+                    <button  style="color: rgb(33, 48, 48); width: 100% " type="submit" class="btn btn-info mt-3" id="btn_login">Login</button>
+                    <button  class="btn btn-secondary mt-3" id="btn_register">Register</button>
+                </form>
+            </div>
+        </div>
+  </div>    
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+        integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="/css/js/alert-notification.js"></script>
+<script src="/css/js/loading.js"></script>
+
+<script>
+    $('#btn_register').click(function(){
+        location.href = `/register`
+    })
+
+    $('#login_form').submit(function (e) {
+        e.preventDefault()
+        const email = $('#email').val()
+        const password = $('#password').val()
+        $.ajax({
+            url: '/security/sign-in',
+            type: 'post',
+            data: {email, password},
+            dataType:'json',
+            success: (response) => {
+                setTimeout(() => {
+                    if (response.code === 200) {
+                        
+                        $.cookie('user_token', response.token, {path: '/'});
+                         if (response.role === 'ADMIN') {
+                            location.href = '/admin'
+                        } else if (response.role === 'CLIENT') {
+                            location.href = '/client' }                      
+                    } else {
+                        alert('email or password is wrong!')
+                    }
+                }   )
+            },
+            error: (error) => {
+                setTimeout(() => {
+                    alert('something went wrong!')
+                    Loading(false)
+                }, 1500)
+            }
+        })
+    })
+</script>
+
+</html>

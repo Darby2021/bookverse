@@ -1,0 +1,59 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-family: sans-serif;
+
+}
+
+body{
+    background-color: rgba(255, 121, 0, 0.3);
+}
+
+h1, a{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+.section{
+    padding: 4rem 2rem;
+}
+
+.section .error{
+    font-size: 150px;
+    color: #FF7900;
+    text-shadow:
+            1px 1px 1px white,
+            2px 2px 1px white,
+            3px 3px 1px white,
+            4px 4px 1px white,
+            5px 5px 1px white,
+            6px 6px 1px white,
+            7px 7px 1px white,
+            8px 8px 1px white,
+            25px 25px 8px rgba(0,0,0, 0.2);
+}
+
+.page{
+    margin: 2rem 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #444;
+}
+
+.back-home{
+    cursor: pointer;
+    display: inline-block;
+    border: 2px solid #FF7900;
+    color: #FF7900;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.75rem 1rem 0.6rem;
+    transition: all 0.2s linear;
+    box-shadow: 0 3px 8px rgba(0,0,0, 0.3);
+}
+.back-home:hover{
+    background: #FF7900;
+    color: #ddd;
+}

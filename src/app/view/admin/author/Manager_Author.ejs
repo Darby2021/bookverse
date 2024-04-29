@@ -1,0 +1,100 @@
+<br><h1 style="text-align: center; color: #273670;">List Author</h1>
+<div>
+  <a href="/admin/author/create">
+      <button class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i> New</button>
+  </a>
+</div>
+<div class="table-responsive mt-3">
+  <table class="table table-hover" style="text-align: center;">
+      <thead>
+      <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Name</th>
+          <th scope="col">Alias</th>
+          <th scope="col">Action</th>
+          
+      </tr>
+      </thead>
+      <tbody>
+      <% author.map((author, index) => { %>
+          <tr>
+              <td scope="row"><%= index + 1 %></td>
+              <td><%= author.name_author %></td>
+              <td><%= author.alias_author %></td>
+              <td style="vertical-align: middle;">
+                  <div class="btn-group-vertical" role="group">
+                    <!-- <a href="/admin/author/<%= author._id %>/edit"> -->
+                      <button type="button" class="btn btn-warning btn-edit-author" data-id="<%= author._id%>">
+                        <i class="bi bi-gear-fill"></i> Edit
+                      </button>
+                      <button type="button" class="btn btn-danger btn-delete-author" data-bs-id="<%= author._id %>" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="bi bi-trash3-fill"></i> Delete 
+                  </div>
+              </td>
+          </tr>
+      <% }) %>
+      </tbody>
+  </table>
+</div>
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Warning</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Do you want to remove? 
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                <button id="btn_delete_author_modal" type="submit" class="btn btn-danger">Delete</button>
+              </div>
+          </div>
+    </div>
+  </div>
+  <%- contentFor('script') %>
+  <script>
+
+ $('.btn-edit-author').click(function(){
+  const id = $(this).data('id')
+  location.href = `/admin/author/${id}/edit`
+ })
+
+  let author_id = 0;
+  $('.btn-delete-author').click(function(){
+    author_id = $(this).data('bs-id')
+    $('#author_id').val(author_id)
+  })
+  
+  $('#btn_delete_author_modal').click(function(){
+    $('#btn_close_confirm_modal').click()
+          $.ajax({
+              url: '/admin/author/delete',
+              type: 'delete',
+              data: {author_id: author_id },
+              dataType: 'json',
+              success: (response) => {
+                  setTimeout(() => {
+                      if (response.code === 203) {
+                          location.href = '/admin/author'
+                      } else {
+                          Alert.Show('warning', response.message)
+                      }
+                      Loading(false)
+                  },)
+              },
+              error: (error) => {
+                  setTimeout(()=> {
+                      Alert.Show('danger', 'Something went wrong!')
+                      Loading(false)
+                      console.log(error)
+                  },)
+              }
+          })
+  })
+  </script>

@@ -1,0 +1,114 @@
+<br>
+<h1 style="text-align: center; color: #273670;">List Product</h1>
+<br><div>
+  <a href="/admin/product/create">
+      <button class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i> New</button>
+  </a>
+</div>
+<div class="table-responsive mt-3">
+  <table class="table table-hover" style="text-align: center;">
+      <thead>
+      <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Name</th>
+          <th scope="col">Alias_Story</th>
+          <th scope="col">Status</th>  
+          <th scope="col">Image</th>  
+          <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% story.map((story, index) => { %>
+          <tr>
+              <td scope="row"><%= index + 1 %></td>
+              <td><%= story.name_story %></td>
+              <td><%= story.alias_story %></td>
+              <td><%= story.status%></td>
+              <td>
+                <a class="detail-product" data-product-id="<%=story._id%>">
+                <img src="/image/<%=story.avatar%>" width="50px" height="100px" alt="no image">
+                </a>
+              </td>
+              <td style="vertical-align: middle;">
+                  <div class="btn-group-vertical" role="group">
+                    <button type="button" class="btn btn-warning btn-detail-product" data-id="<%=story._id%>">
+                      <i class="bi bi-ticket-detailed"></i> Detail 
+                    </button>
+                     <button type="button" class="btn btn-warning btn-edit-product" data-id="<%=story._id%>">
+                      <i class="bi bi-gear-fill"></i> Edit 
+                    </button>
+                    <button type="button" class="btn btn-danger btn-delete-product" data-bs-id="<%=story._id%>" data-bs-toggle="modal" data-bs-target="#exampleModal">                     
+                      <i class="bi bi-trash3-fill"></i> Delete 
+                    </button>
+                  </div>
+              </td>
+          </tr>
+      <% }) %>
+      </tbody>
+  </table>
+</div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Warning</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Do you want to remove? 
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                <button id="btn_delete_product_modal" type="submit" class="btn btn-danger">Delete</button>
+              </div>
+            </div>
+    </div>
+  </div>
+  
+ 
+<%- contentFor('script') %>
+<script>
+  $('.btn-detail-product').click(function(){
+  const id = $(this).data('id')
+  location.href = `/admin/product/${id}/detail`
+})
+
+$('.btn-edit-product').click(function(){
+  const id = $(this).data('id')
+  location.href = `/admin/product/${id}/edit`
+})
+
+let product_id = 0;
+$('.btn-delete-product').click(function(){
+  product_id = $(this).data('bs-id')
+  $('#product_id').val(product_id)
+})
+
+$('#btn_delete_product_modal').click(function(){
+  $('#btn_close_confirm_modal').click()
+        $.ajax({
+            url: '/admin/product/delete',
+            type: 'delete',
+            data: {product_id: product_id },
+            dataType: 'json',
+            success: (response) => {
+                setTimeout(() => {
+                    if (response.code === 203) {
+                        location.href = '/admin/product'
+                    } else {
+                        Alert.Show('warning', response.message)
+                    }
+                },)
+            },
+            error: (error) => {
+                setTimeout(()=> {
+                    Alert.Show('danger', 'Something went wrong!')
+                    console.log(error)
+                },)
+            }
+        })
+})
+</script>
+

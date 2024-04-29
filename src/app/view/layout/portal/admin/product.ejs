@@ -1,0 +1,73 @@
+<div class="mt-4">
+    <div class="container">
+        <h2>Product book</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th scope="col" colspan="2">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for (var story of story) {%>
+                <tr>
+                    <th scope = "row"></th>
+                    <td><%= story.name_story%></td>
+                    <td><%= story.status%></td>
+                    <td><%= story.description%></td>
+                    <td><img src="<%=story.image%>" alt="no image" width="50px" height="70px"></td>
+                    <td>
+                        <a href="/product/<%=story._id%>/edit" class="btn btn-link">edit</a>
+
+                        <a href="" class="btn btn-link btn-delete-product" data-product-id="<%=story._id%>" data-bs-toggle="modal" data-bs-target="#delete_modal">delete</a>
+                    </td>
+                    <td></td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--Modal delete-->
+<div class="modal fade" id="delete_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure delete
+            </div>
+            <div class="modal-footer">
+                <button id="btn-delete-product" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Delete form-->
+<form method="POST" name="delete-product-form">
+</form>
+    <%- contentFor('script') %>
+    <script src="/js/product.js"></script>
+    <script>
+        var ProductId;
+        const btnDeleteCourse = document.getElementById('btn-delete-product');
+        var DeleteForm = document.forms['delete-product-form']
+
+        $('.btn-delete-product').click( function (){
+            ProductId = $(this).data('product-id')
+            console.log(ProductId)
+        })
+        console.log(btnDeleteCourse);
+        btnDeleteCourse.onclick = function (){
+            DeleteForm.action= '/product/' + ProductId +'?_method=DELETE';
+            DeleteForm.submit();
+        }
+    </script>

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="/my-assets/media/decoration/blog.svg">
+    <title>Sign Up</title>
+
+    <link rel="stylesheet" href="/css/css/all.min.css">
+
+    <link href="/css/css/portal/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/css/alert-notification.css">
+    <link rel="stylesheet" href="/css/css/loading.css">
+</head>
+<body style="background: white">
+<%- include('../partials/loading') %>
+
+<div class="container-fluid">
+    <form id="register_form">
+        <div class="row justify-content-center" style="padding: 3rem">
+            <div class="col-sm-12 col-md-5 col-lg-4">
+                <img class="img-fluid" src="/image/login.jpg" alt="sing up image" style="width: 900px; height: 600px; padding: 20px;">
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-3 mt-5 ms-5">
+                <h2 class="form-title ">Sign Up</h2>
+                <form id="login_form" class="mt-5">
+                    <div class="mb-2">                 
+                        <label for="email" class="col-form-label title-field">Email</label>
+                        <input type="email" class="form-control" id="email"
+                               name="email"
+                               required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="password" class="col-form-label title-field mt-3">Password</label>
+                        <input type="password" class="form-control" id="password" autocomplete
+                               name="password"
+                               required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="password_confirm" class="col-form-label title-field mt-3">Password Confirm</label>
+                        <input type="password" class="form-control" id="password_confirm" autocomplete
+                               name="password_confirm"
+                               required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="full_name" class="col-form-label title-field mt-3">Full Name</label>
+                        <input type="text" class="form-control" id="full_name" autocomplete
+                               name="full_name"
+                               required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="phone" class="col-form-label title-field mt-3">Phone</label>
+                        <input type="number" class="form-control" id="phone" autocomplete
+                               name="phone"
+                               required>
+                    </div>
+                    <button class="btn btn-primary" id="btn_create_new_register">
+                        <i class="fa-solid fa-plus me-2"></i>
+                        REGISTER
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+        integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="/css/js/alert-notification.js"></script>
+<script src="/css/js/loading.js"></script>
+
+
+<script>
+    $('#register_form').submit(function (e) {
+        e.preventDefault()
+       const email = $('#email').val()
+       const password = $('#password').val()
+       const password_confirm = $('#password_confirm').val()
+       const full_name = $('#full_name').val()
+       const phone = $('#phone').val()
+
+       if($('#password').val().length < 8){
+           alert('Password must be greater than or equal 8 character')
+           return
+       }
+       else if(password != password_confirm){
+            alert('Password and password confirm different')
+           return
+       }
+       else if(phone.length > 10 ){
+            alert('The phone number cannot exceed 10 digits')
+           return
+       }
+        $.ajax({
+            url: '/register/create',
+            type: 'post',
+            data: {email, password, full_name, phone},
+            dataType: 'JSON',
+            beforeSend: Loading(true),
+            success: (response) => {
+                setTimeout(() => {
+                    if (response.code === 201) {
+                        location.href = '/security/sign-in'
+                    } else {
+                        alert(response.message)
+                    }
+                    Loading(false)
+                }, 1500)
+            },
+            error: (error) => {
+                console.log(error)
+                    alert('Something went wrong!')
+            }
+        })
+    })
+</script>
+
+
+</html>

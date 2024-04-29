@@ -1,0 +1,140 @@
+
+<div class="row g-0 text-align">
+    <div class="col-sm-6 col-md-6" style="padding: 30px;">
+            <div class="row g-0 text-center">
+                <div class="col-sm-6 col-md-10">  
+                    <div class="row">
+                        <% data.SavedStories.map((story) => { %>
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <a class="detail-product" data-product-id="<%=story._id%>">
+                                        <img src="/image/<%=story.avatar%>" width="100px" height="200px" alt="no image"> </a>
+                                            <div class="card-body">
+                                                <h5 class="card-title"><%=story.name_story%></h5>
+                                            </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="col-6 col-md-6">
+        <div class="container-fluid">
+            <form id="profile_form">    
+                <div class="row justify-content" style="padding: 3rem">
+                    <div class="col-sm-12">
+                        <h2 class="form-title ">Profile</h2>
+                        <form id="login_form" class="mt-5">
+                            <div class="mb-3">                 
+                                <label for="email" class="col-form-label title-field" style="color: rgb(206, 210, 213);"><i class="fa fa-user"></i> <%=data.profile.full_name%> </label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="col-form-label title-field mt-3" style="color: rgb(206, 210, 213);"> <i class="bi bi-envelope-at-fill"></i> <%=data.profile.email%></label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="col-form-label title-field mt-3" style="color: rgb(206, 210, 213);"><i class="bi bi-telephone-fill"></i> <%=data.profile.phone%></label>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-change-password" id="btn_change_password" data-bs-toggle="modal"
+                            data-bs-target="#change_pass_modal">
+                            <i class="bi bi-lock-fill"></i> Change Password
+                            </button>
+                            <button type="button" class="btn btn-primary btn-logout"><i class="bi bi-box-arrow-left"></i> Logout </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+<div class="modal fade" id="change_pass_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Update Password</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form id="change_pass_form">
+                <div class="form-group">
+                    <label for="current_pass">Password Current</label>
+                    <input type="password" class="form-control" id="current_pass" required autocomplete>
+                </div>
+                <div class="form-group">
+                    <label for="new_pass">Password New</label>
+                    <input type="password" class="form-control" id="new_pass" required autocomplete>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_pass">Password Confirm</label>
+                    <input type="password" class="form-control" id="confirm_pass" required autocomplete>
+                </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-secondary" id="btn_close_change_pass_modal"
+                data-bs-dismiss="modal">Close
+                </button>
+              </div>
+              </form>
+          </div>
+    </div>
+  </div>
+</body>
+<%- contentFor('script') %>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+        integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="/css/js/alert-notification.js"></script>
+<script src="/css/js/loading.js"></script>
+<script>
+
+    $('.detail-product').click(function () {
+    const product_id = $(this).data('product-id')
+    location.href = `/client/${product_id}/detail-product`
+    })
+
+$('.btn-logout').click(function(){
+  location.href = `/security`
+ })
+
+    $('#change_pass_form').submit(function (e){
+        e.preventDefault()
+        const current_pass = $('#current_pass').val()
+        const new_pass = $('#new_pass').val()
+        const confirm_pass = $('#confirm_pass').val()
+        if(new_pass.trim().length < 8){
+            alert('new password must be greater or equal 8 character')
+            return
+        }
+        if(new_pass !== confirm_pass){
+            alert('new password and confirm password is not match!')
+            return
+        }
+    $.ajax({
+            url: '/profile/change-password',
+            type: 'PUT',
+            data: {current_pass, new_pass},
+            beforeSend: Loading(true),
+            success: (response) => {
+                setTimeout(() => {
+                    if (response.code === 202) {
+                        alert('success', response.message)
+                        $('#btn_close_change_pass_modal').click()
+                    } else {
+                        alert('warning', response.message)
+                    }
+                    Loading(false)
+                }, 1500)
+            },
+            error: () => {
+                alert.Show('danger', 'Something went wrong!')
+            }
+        })
+  })
+</script>
+
+
+
