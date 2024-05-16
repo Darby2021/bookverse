@@ -7,7 +7,11 @@ const UserSchema = new Schema({
     full_name: {type: String, required: true},
     phone: {type: String, required: true},
     role: {type: String, required: true},
-    isFollowing: { type: Boolean, default: false }
-}, {timestamps: true})
+    follows: {
+        type: Number,
+        default: 0
+    }
+}
+, {timestamps: true})
 
 module.exports = UserSchema

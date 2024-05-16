@@ -5,7 +5,7 @@ const Chap = mongoose.model("Chapter", ChapterSchema);
 const User = mongoose.model('User', UserSchema);
 const Category = mongoose.model('Category', CategorySchema);
 
-const {ChapterRepository, StoryRepository} = require('../../repository')
+const {ChapterRepository, StoryRepository, UserRepository} = require('../../repository')
 
 const ClientController =  {
     async home(req, res){
@@ -34,8 +34,6 @@ const ClientController =  {
             // Nếu không tìm thấy thể loại 'Drama', xử lý tại đây
            category = await Story.find({ category: category._id });         
         }
-
-
         let categoryAfi;
         categoryAfi = await Category.findOne({ name_category: 'Art'})  
         if (!categoryAfi) {
@@ -58,7 +56,6 @@ const ClientController =  {
                  data
            })    
     },
-
     async DetailProduct(req, res){
         const role = req.user.role
         const story = await Story.findById(req.params.id)
@@ -68,8 +65,7 @@ const ClientController =  {
             view.views++;
             await view.save();  
         const data = {
-            story,role,
-            chap
+            story,role, chap
         }
         return res.render(
             'client/detail-product',
@@ -105,6 +101,43 @@ const ClientController =  {
             )
         }
     },
+    async ReadNext(req, res){
+            const currentChapterId = req.params.currentChapterId;
+            // Tìm chương hiện tại trong cơ sở dữ liệu
+            const currentChapter = await Chap.findById(currentChapterId);
+            
+            if (!currentChapter) {
+                return res.status(404).send('Chapter does not exist.');
+            }
+    
+            // Tìm chương tiếp theo dựa trên số chương
+            const nextChapter = await Chap.findOne({ number_chap: currentChapter.number_chap + 1 });
+    
+            if (!nextChapter) {
+                return res.status(404).send('This is the final show.');
+            }
+
+            // Chuyển hướng đến trang đọc của chương tiếp theo
+            res.redirect(`/client/${nextChapter._id}/read`);
+    },
+    async PreviousNext(req, res){
+        const currentChapterId = req.params.currentChapterId;
+        // Tìm chương hiện tại trong cơ sở dữ liệu
+        const currentChapter = await Chap.findById(currentChapterId);
+        
+        if (!currentChapter) {
+            return res.status(404).send('Chapter does not exist.');
+        }
+        // Tìm chương tiếp theo dựa trên số chương
+        const previousChapter = await Chap.findOne({ number_chap: currentChapter.number_chap - 1 });
+
+        if (!previousChapter) {
+            return res.status(404).send('Can nott go back anymore');
+        }
+
+        // Chuyển hướng đến trang đọc của chương tiếp theo
+        res.redirect(`/client/${previousChapter._id}/read`);
+    },
     async SaveBook(req, res){
         const role = req.user.role
         const data = {
@@ -136,21 +169,6 @@ const ClientController =  {
           }
     },
 
-    async follow(req, res){
-        const role = req.user.role
-        const {id} = req.params
-        const story = await Story.findById(req.params.id)
-        const chap = await ChapterRepository.ChapterList(id)
-        const data = {
-            role, story, chap
-        }
-        return res.render(
-        'client/detail-product',
-        {
-        layout:'layout/portal/portal',
-        data
-    })   
-    },
     async about(req, res){
         const role = req.user.role
         const data = {
