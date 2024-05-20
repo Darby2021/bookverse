@@ -1,10 +1,10 @@
-const express = require('express')
-const route = express.Router()
+const express = require("express");
+const route = express.Router();
 
-const {SecurityController} = require('../app/controller')
+const { SecurityController } = require("../app/controller");
 
-route.post('/sign-in', SecurityController.SignIn)
+route.post("/sign-in", SecurityController.SignIn);
 
-route.get('/', SecurityController.SignInPage)
+route.get("/", SecurityController.SignInPage);
 
-module.exports = route
+module.exports = route;

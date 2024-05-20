@@ -1,13 +1,13 @@
-const express = require('express');
+const express = require("express");
 const route = express.Router();
 
-const ChapterRoute = require('../../app/controller/admin/ChapterController');
+const ChapterController = require("../../app/controller/admin/ChapterController");
 
-route.get('/:id/edit', ChapterRoute.edit);
-route.post('/:id/update', ChapterRoute.update);
-route.get('/:id/create', ChapterRoute.create);
-route.post('/:id/store', ChapterRoute.store);
-route.delete('/delete', ChapterRoute.delete);
+route.get("/:id/edit", ChapterController.edit);
+route.post("/:id/update", ChapterController.update);
+route.get("/:id/create", ChapterController.create);
+route.post("/:id/store", ChapterController.store);
+route.delete("/delete", ChapterController.delete);
 // route.use('/', ChapterRoute.home);
 
-module.exports = route
+module.exports = route;

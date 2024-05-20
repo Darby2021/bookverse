@@ -1,5 +1,3 @@
-const SecurityService = {
+const SecurityService = {};
 
-}
-
-module.exports = SecurityService
+module.exports = SecurityService;

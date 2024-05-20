@@ -62,7 +62,6 @@
             success: (response) => {
                 setTimeout(() => {
                     if (response.code === 200) {
-                        
                         $.cookie('user_token', response.token, {path: '/'});
                          if (response.role === 'ADMIN') {
                             location.href = '/admin'

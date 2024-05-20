@@ -1,9 +1,8 @@
-const express = require('express');
+const express = require("express");
 const route = express.Router();
 
-const AdminSiteController = require('../../app/controller/admin/AdminSiteController');
+const AdminSiteController = require("../../app/controller/admin/AdminSiteController");
 
+route.use("/", AdminSiteController.index);
 
-route.use('/', AdminSiteController.index);
-
-module.exports = route
+module.exports = route;

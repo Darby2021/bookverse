@@ -16,9 +16,10 @@ function getDay(date){
           <h5><i class="fa fa-rss">
           </i> Status: <%= data.story.status %> </h5>
           <h5><i class="fa fa-eye"></i> View: <%= data.story.views %> </h5>
-          <h5>Follow: <%= data.story.follows %> </h5>
+          <h5><i></i> Follow: <span id="followCount"><%= data.story.follow.length %></span></h5>
           <button class="btn btn-success btn-save" data-id ="<%=data.story._id%>">Save</button>
-          <!-- <a href="#" title="comment"><i class="fa fa-comment"></i></a> -->
+          <button class="btn btn-success btn-follow" data-id ="<%=data.story._id%>">follow</button>
+          <button class="btn btn-success btn-unfollow" data-id ="<%=data.story._id%>">unfollow</button>
           <p class="card-text"><h6>Description: </h6><%=data.story.description%></p>
         </div>
       </div>
@@ -37,39 +38,34 @@ function getDay(date){
       <% })%>
     </ul>
 </div>
-
-
 <div class="container mt-5">
-
-  <div class="row  d-flex justify-content-center">
-
+  <div class="row  d-flex justify-content">
       <div class="col-md-8">
-
-          <div class="headings d-flex justify-content-between align-items-center mb-3">
+          <div class="headings d-flex justify-content-between align-items mb-2">
               <h5>List Comments</h5>
           </div>
-          <div class="form-group">
-            <label for="name">Comment for you!</label> 
-            <input type="text" class="form-control" id="name_story" name="name_story">
-            <button class="btn btn-success btn-send"><i class="bi bi-send"></i>Send</button>
-
-        </div>
+        <form method="POST" action="/client/<%=data.story.id%>/feedbackInfo">
+          <label for="name">Comment for you!</label> 
+          <input type="text" class="form-control" id="content" name="content">
+          <button type="submit" class="btn btn-success btn-send"><i class="bi bi-send"></i>Send</button>
+        </form>
           <div class="card p-3 mt-2">
-
-              <div class="d-flex justify-content-between align-items-center">
-
-            <div class="user d-flex flex-row align-items-center">
-
-              <img src="/image/user.png" width="30" class="user-img rounded-circle mr-2">
-              <span><small class="font-weight-bold text-primary"> Duy Chuong</small><br>
-                <small class="font-weight-bold">Loving your work and profile! </small></span>
+            <% data.feedback_list.map(feedback => { %>
+              <div class="testimonial-box">
+                <div class="box-top">
+                    <div class="profile">
+                        <div class="profile-img">
+                            <img src="/image/user.png" style="width: 30px; height: 30px;"/>
+                            <strong><%= feedback.user.full_name %></strong>
+                            <span class="badge text-bg-primary rounded-pill"><%=feedback.createdAt.getHours()%>:<%=feedback.createdAt.getMinutes()%>  <%=feedback.createdAt.getDate()%>/<%=feedback.createdAt.getMonth() + 1%>/<%=feedback.createdAt.getFullYear()%></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-comment">
+                    <p><%= feedback.content %></p>
+                </div>
             </div>
-            <small>11/04/2024</small>
-            </div>
-              <div class="icons align-items-center">
-                  <i class="fa fa-check-circle-o check-icon text-primary"></i>
-              </div>
-            </div>
+              <% }) %>
           </div>          
       </div>
   </div>
@@ -80,14 +76,23 @@ function getDay(date){
   $('.btn-read-chap').click(function(){
   const id = $(this).data('id')
   location.href = `/client/${id}/read`
-})
+  }),
 $('.btn-save').click(function(){
   const id = $(this).data('id')
   location.href = `/client/${id}/save`
+}),
+$('.btn-follow').click(function(){
+  const id = $(this).data('id')
+  location.href = `/client/${id}/follow`
+}),
+$('.btn-unfollow').click(function(){
+  const id = $(this).data('id')
+  location.href = `/client/${id}/unfollow`
 })
 </script>
 <style>
 .hide {
     display: none;
 }
+
 </style>
