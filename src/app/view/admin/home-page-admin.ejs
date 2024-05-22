@@ -1,74 +1,72 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<h1 style="text-align: center; color: #273670;">Dashboard</h1>
+<h1 style="text-align: center" class="heading-color">Dashboard</h1>
 <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">DashBoard</th>
-        <th scope="col">Title</th>
-        <th scope="col">Quantity</th>
-      </tr>
-    </thead>
+  <thead>
+    <tr>
+      <th scope="col">DashBoard</th>
+      <th scope="col">Title</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
 
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Book</td>
-        <td><%= data.story_len%></td>
-       
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Category</td>
-        <td><%= data.category_len%></td>
-        
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td >Author</td>
-        <td><%= data.author_len%></td>
-      </tr>
-    </tbody>
-  </table>
-  <canvas id="myChart" class="chart-container"></canvas>
-  <script>
-    // value of table
-    var labels = ['Story', 'Category', 'Author'];
-    var data = [<%= data.story_len%>, <%= data.category_len%>, <%= data.author_len%>];
-   //  chart
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Quantity',
-                data: data,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Book</td>
+      <td><%= data.story_len%></td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Category</td>
+      <td><%= data.category_len%></td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Author</td>
+      <td><%= data.author_len%></td>
+    </tr>
+  </tbody>
+</table>
+<canvas id="myChart" class="chart-container"></canvas>
+<script>
+   // value of table
+   var labels = ['Story', 'Category', 'Author'];
+   var data = [<%= data.story_len%>, <%= data.category_len%>, <%= data.author_len%>];
+  //  chart
+   var ctx = document.getElementById('myChart').getContext('2d');
+   var myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+           labels: labels,
+           datasets: [{
+               label: 'Quantity',
+               data: data,
+               backgroundColor: [
+                   'rgba(255, 99, 132, 0.2)',
+                   'rgba(54, 162, 235, 0.2)',
+                   'rgba(255, 206, 86, 0.2)',
+               ],
+               borderColor: [
+                   'rgba(255, 99, 132, 1)',
+                   'rgba(54, 162, 235, 1)',
+                   'rgba(255, 206, 86, 1)',
+               ],
+               borderWidth: 1
+           }]
+       },
+       options: {
+           scales: {
+               y: {
+                   beginAtZero: true
+               }
+           }
+       }
+   });
 </script>
 <style>
   .chart-container {
     width: 200px;
     height: 200px;
-}
+  }
 </style>
 <%- contentFor('script') %>

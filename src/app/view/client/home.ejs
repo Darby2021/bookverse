@@ -56,9 +56,9 @@
         <div class="row">
           <% let count1 = 0; %> <% data.stories.forEach((stories) => { %> <% if
           (count1 < 12) { %>
-          <div class="col-sm-2">
+          <div class="col-sm-2 mb-5">
             <div class="row">
-              <a class="detail-product" data-product-id="<%=stories._id%>">
+              <a class="detail-product mb-3" data-product-id="<%=stories._id%>">
                 <img
                   src="/image/<%=stories.avatar%>"
                   width="100px"
@@ -68,6 +68,7 @@
               </a>
               <div class="card-body">
                 <h5 class="card-title"><%=stories.name_story%></h5>
+                <i class="fa fa-eye"></i> View: <%= stories.views %>
               </div>
             </div>
           </div>
@@ -86,9 +87,9 @@
       <div class="row">
         <% let count2 = 0; %> <% data.category.forEach((stories) => { %> <% if
         (count2 < 6) { %>
-        <div class="col-sm-2">
+        <div class="col-sm-2 mb-5">
           <div class="row">
-            <a class="detail-product" data-product-id="<%=stories._id%>">
+            <a class="detail-product mb-3" data-product-id="<%=stories._id%>">
               <img
                 src="/image/<%=stories.avatar%>"
                 width="100px"
@@ -98,6 +99,7 @@
             </a>
             <div class="card-body">
               <h5 class="card-title"><%=stories.name_story%></h5>
+              <i class="fa fa-eye"></i> View: <%= stories.views %>
             </div>
           </div>
         </div>
@@ -116,9 +118,9 @@
       <div class="row">
         <% let count3 = 0; %> <% data.categoryAfi.forEach((stories) => { %> <%
         if (count3 < 6) { %>
-        <div class="col-sm-2">
+        <div class="col-sm-2 mb-5">
           <div class="row">
-            <a class="detail-product" data-product-id="<%=stories._id%>">
+            <a class="detail-product mb-3" data-product-id="<%=stories._id%>">
               <img
                 src="/image/<%=stories.avatar%>"
                 width="100px"
@@ -128,6 +130,7 @@
             </a>
             <div class="card-body">
               <h5 class="card-title"><%=stories.name_story%></h5>
+              <i class="fa fa-eye"></i> View: <%= stories.views %>
             </div>
           </div>
         </div>

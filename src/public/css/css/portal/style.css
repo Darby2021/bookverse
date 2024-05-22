@@ -6,6 +6,15 @@
     --dark: white;
 }
 
+.heading-color{
+    color: #273670!important
+  }
+
+a.active{
+    background-color: #111;
+    color: #bc1212;
+}
+
 html{
     background: white!important;
 }
@@ -334,6 +343,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     transition: 2s;
 }
 
+.carousel-control-next-icon, .carousel-control-previous-icon{
+    color:  #6c757d!important;
+}
 
 /*** Testimonial ***/
 .testimonial-carousel .owl-dots {
