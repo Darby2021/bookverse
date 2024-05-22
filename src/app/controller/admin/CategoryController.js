@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { CategorySchema } = require("../../model");
 const Category = mongoose.model("Category", CategorySchema);
 const CategoryRepository = require("../../repository/CategoryRepository");
+const StoryRepository = require("../../repository/StoryRepository");
 const {
   CREATED,
   BAD_REQUEST,
@@ -67,6 +68,11 @@ const CategoryController = {
   },
   async delete(req, res) {
     const { category_id } = req.body;
+    const CountCategoryById = await StoryRepository.GetCountCategoryId(
+      category_id
+    );
+    console.log(CountCategoryById);
+    if (CountCategoryById > 0) return res.status(200).send({ code: 333 });
     const categories = {
       ...req.body,
     };

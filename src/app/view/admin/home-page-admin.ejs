@@ -1,7 +1,4 @@
-
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <h1 style="text-align: center; color: #273670;">Dashboard</h1>
 <table class="table">
     <thead>
@@ -29,7 +26,6 @@
         <th scope="row">3</th>
         <td >Author</td>
         <td><%= data.author_len%></td>
-        
       </tr>
     </tbody>
   </table>
@@ -38,8 +34,7 @@
     // value of table
     var labels = ['Story', 'Category', 'Author'];
     var data = [<%= data.story_len%>, <%= data.category_len%>, <%= data.author_len%>];
-
-   //chart
+   //  chart
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -76,5 +71,4 @@
     height: 200px;
 }
 </style>
-
 <%- contentFor('script') %>

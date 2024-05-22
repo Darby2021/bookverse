@@ -76,16 +76,16 @@
               dataType: 'json',
               success: (response) => {
                   setTimeout(() => {
-                      if (response.code === 203) {
+                      if (response.code != 333) {
                           location.href = '/admin/category'
                       } else {
-                          Alert.Show('warning', response.message)
+                          alert('Exists in product')
                       }
                   },)
               },
               error: (error) => {
                   setTimeout(()=> {
-                      Alert.Show('danger', 'Something went wrong!')
+                      alert('Something went wrong!')
                       console.log(error)
                   },)
               }

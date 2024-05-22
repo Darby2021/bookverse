@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
-const { AuthorSchema } = require("../../model");
+const { AuthorSchema, StorySchema } = require("../../model");
 const Author = mongoose.model("Author", AuthorSchema);
+const Story = mongoose.model("Story", StorySchema);
 const AuthorRepository = require("../../repository/AuthorRepository");
+const StoryRepository = require("../../repository/StoryRepository");
 const {
   CREATED,
   BAD_REQUEST,
@@ -67,6 +69,8 @@ const AuthorController = {
   },
   async delete(req, res) {
     const { author_id } = req.body;
+    const GetCountAuthorId = await StoryRepository.GetCountAuthorId(author_id);
+    if (GetCountAuthorId > 0) return res.status(200).send({ code: 333 });
     const authors = {
       ...req.body,
     };

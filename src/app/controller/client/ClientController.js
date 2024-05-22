@@ -76,7 +76,6 @@ const ClientController = {
       role,
       chap,
       feedback_list,
-
     };
     return res.render("client/detail-product", {
       layout: "layout/portal/portal",
@@ -173,7 +172,7 @@ const ClientController = {
       if (alreadySaved) return res.status(404).send("follow already exists");
       story.follow.push(user._id);
       await story.save(user._id);
-      res.status(404).send("You have successfully followed");
+      res.redirect(`/client/${story.id}/detail-product`);
       return res.render("client/home", {
         layout: "layout/portal/portal",
         story,
@@ -198,7 +197,7 @@ const ClientController = {
       if (alreadySaved) {
         story.follow.remove(user._id);
         await story.save();
-        return res.status(404).send("You have successfully unfollowed");
+        return res.redirect(`/client/${story.id}/detail-product`);
       }
       res.status(404).send("Books you have unfollowed");
       return res.render("client/home", {

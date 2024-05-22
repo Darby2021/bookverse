@@ -31,5 +31,11 @@ const StoryRepository = {
       .populate("chapters")
       .lean();
   },
+  GetCountAuthorId(author_id) {
+    return Story.countDocuments({ author: author_id });
+  },
+  GetCountCategoryId(category_id) {
+    return Story.countDocuments({ category: category_id });
+  },
 };
 module.exports = StoryRepository;
